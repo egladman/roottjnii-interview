@@ -12,8 +12,6 @@ docker_dnf_repo_gpg: https://download.docker.com/linux/fedora/gpg
 docker_container_port: 4567 # Port that is exposed to the host
 docker_host_port: 4567 # Port that is exposed to the outside world
 
-kernel_param_cgroup: "systemd.unified_cgroup_hierarchy="
-
 docker_container_service_name: docker.mauve
 docker_container_service_restart_timeout: 10s
 docker_container_service_path: '/etc/systemd/system/{{ docker_container_service_name }}.service'
