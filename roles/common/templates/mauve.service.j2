@@ -7,10 +7,11 @@ Requires=docker.service
 User={{ docker_host_username }}
 Group={{ docker_host_group }}
 Restart=always
-RestartSec=5s
+RestartSec={{ docker_container_service_restart_timeout }}
+ExecStartPre={{ docker_container_start_pre_cmd }}
 ExecStart={{ docker_container_start_cmd }}
-Type=notify
-NotifyAccess=all
+ExecStop={{ docker_container_stop_cmd }}
+Type=simple
 
 [Install]
 WantedBy=multi-user.target

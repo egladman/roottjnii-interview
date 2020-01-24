@@ -1,4 +1,11 @@
 ---
+- name: 'Stop {{ docker_container_service_name }} via systemd. Just in case'
+  systemd:
+    name: "{{ docker_container_service_name }}"
+    state: stopped
+  ignore_errors: yes
+  become: true
+
 
 - name: 'Pull {{ dockerhub_img }}'
   docker_image:
