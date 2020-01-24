@@ -1,0 +1,18 @@
+---
+# We've potentially updated the kernel or params,
+# so let's check if we need to reboot just to be safe...
+- name: Check if we need to perform a reboot
+  shell: dnf needs-restarting --reboothint
+  register: reboot_required
+  ignore_errors: True
+  become: true
+
+- shell: ( /bin/sleep 60; shutdown -r now "Ansible updates triggered" ) &
+  async: 30
+  poll: 0
+  ignore_errors: true
+  notify:
+    - waiting for server to come back after reboot
+  when: reboot_required.rc != 0
+  become: true
+

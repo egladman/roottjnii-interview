@@ -1,0 +1,12 @@
+[production]
+maryland.example.com
+newhampshire.example.com
+
+[pre-production]
+newyork.example.com
+
+[staging]
+ontario.example.com
+
+[development]
+quebec.example.com

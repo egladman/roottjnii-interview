@@ -1,0 +1,11 @@
+
+- import_tasks: install-packages-fedora.yml
+  when: ansible_distribution == 'Fedora'
+
+- import_tasks: modify-grub-fedora.yml
+  when: ansible_distribution == 'Fedora'
+
+- import_tasks: check-if-restart-required.yml
+- import_tasks: create-user.yml
+- import_tasks: configure-docker.yml
+- import_tasks: configure-docker-container.yml

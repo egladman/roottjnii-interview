@@ -1,0 +1,10 @@
+---
+
+# 'systemctl start docker' will silently fail on Fedora 31 until the kernel param is added.
+# But we've already accounted for this. See check-if-restart-required.yml
+- name: Start/Enable docker via systemd
+  systemd:
+    name: docker
+    state: started
+    enabled: yes
+  become: true

@@ -1,0 +1,24 @@
+---
+
+- name: 'Pull {{ dockerhub_img }}'
+  docker_image:
+    name: "{{ dockerhub_img }}"
+    tag: "{{ dockerhub_img_tag }}"
+    source: pull
+
+- name: 'Create {{ docker_container_service_path }}'
+  template:
+    src: mauve.service.j2
+    dest: "{{ docker_container_service_path }}"
+    owner: root
+    group: root
+    mode: 0644
+  become: true
+
+- name: 'Start/Enable {{ docker_container_service_name }} via systemd'
+  systemd:
+    name: "{{ docker_container_service_name }}"
+    state: started
+    daemon_reload: yes
+    enabled: yes
+  become: true

@@ -1,0 +1,14 @@
+---
+
+# Use Cgroups v1 by default when on Fedora 31
+# https://fedoraproject.org/wiki/Common_F31_bugs#Other_software_issues
+- name: Read the kernel command line parameters
+  shell: cat /proc/cmdline
+  register: kernel_cmd
+  when: ansible_distribution_version == '31'
+  become: true
+
+- name: Add kernel param to switch to Cgroups v1
+  shell: grubby --update-kernel=ALL --args="systemd.unified_cgroup_hierarchy=0"
+  when: kernel_cmd.stdout.find("{{ kernel_param_cgroup }}") or kernel_cmd.stdout.find("{{ kernel_param_cgroup }}=1") 
+  become: true

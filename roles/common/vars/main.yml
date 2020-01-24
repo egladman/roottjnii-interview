@@ -1,0 +1,19 @@
+---
+
+dockerhub_img: roottjnii/interview-container
+dockerhub_img_tag: 201805 
+
+docker_host_username: docker # Container ran under this user
+docker_host_group: docker # This is the default provided by Docker. This shouldn't be touched
+
+docker_dnf_repo_url: https://download.docker.com/linux/fedora/docker-ce.repo
+docker_dnf_repo_gpg: https://download.docker.com/linux/fedora/gpg
+
+docker_container_port: 4567 # Port that is exposed to the host
+docker_host_port: 4567 # Port that is exposed to the outside world
+
+kernel_param_cgroup: "systemd.unified_cgroup_hierarchy="
+
+docker_container_service_name: mauve-docker
+docker_container_service_path: '/etc/systemd/system/{{ docker_container_service_name }}.service'
+docker_container_start_cmd: '/usr/bin/docker run --detach --publish {{ docker_host_port }}:{{ docker_container_port }} --name {{ docker_container_service_name }} {{ dockerhub_img }}:{{ dockerhub_img_tag }}'

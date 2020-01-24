@@ -1,0 +1,16 @@
+[Unit]
+Description=Docker container for {{ dockerhub_img }}
+After=docker.service
+Requires=docker.service
+
+[Service]
+User={{ docker_host_username }}
+Group={{ docker_host_group }}
+Restart=always
+RestartSec=5s
+ExecStart={{ docker_container_start_cmd }}
+Type=notify
+NotifyAccess=all
+
+[Install]
+WantedBy=multi-user.target

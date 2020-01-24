@@ -1,0 +1,9 @@
+---
+
+- name: 'Create non-interactive system user: {{ docker_username }} and add them to group: {{ docker_group }}'
+  user:
+    name: "{{ docker_host_username }}"
+    shell: /sbin/nologin # This is probably overkill with 'system' being truthy
+    system: yes
+    group: "{{ docker_host_group }}"
+  become: true
