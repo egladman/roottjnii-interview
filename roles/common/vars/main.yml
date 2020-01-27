@@ -18,3 +18,6 @@ docker_container_service_path: '/etc/systemd/system/{{ docker_container_service_
 docker_container_start_cmd: '/usr/bin/docker run --rm --publish {{ docker_host_port }}:{{ docker_container_port }} --name %n {{ dockerhub_img }}:{{ dockerhub_img_tag }}'
 docker_container_start_pre_cmd: '-/usr/bin/docker rm --force %n' # If you prepend the path with a dash the result will be ignored
 docker_container_stop_cmd: '-/usr/bin/docker container stop %n'
+
+docker_host_grub_path: /etc/default/grub
+docker_host_grub_config_path: /boot/grub2/grub.cfg

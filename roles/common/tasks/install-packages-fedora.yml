@@ -53,7 +53,6 @@
 - name: Install remaining non-important dnf packages
   dnf: 
     name:
-      - grubby
       - dnf-plugin-tracer
     state: latest
   become: true

@@ -1,16 +1,20 @@
 ---
 
+# TODO: Not pretty. Move kernel param to it's own variable
+
 # Use Cgroups v1 by default when on Fedora 31
 # https://fedoraproject.org/wiki/Common_F31_bugs#Other_software_issues
-- name: Read the kernel command line parameters
-  shell: cat /proc/cmdline
-  register: kernel_cmd
+- name: Add kernel param if not present to switch to Cgroups v1
+  lineinfile:
+    state: present
+    dest: "{{ docker_host_grub_path }}"
+    backrefs: yes
+    regexp: '^(GRUB_CMDLINE_LINUX=(?!.* systemd.unified_cgroup_hierarchy)\"[^\"]+)(\".*)'
+    line: '\1 systemd.unified_cgroup_hierarchy=0\2'
   become: true
+  register: result
 
-# TODO: Not pretty. Move kernel param to it's own variable
-- name: Add kernel param to switch to Cgroups v1
-  shell: grubby --update-kernel=ALL --args="systemd.unified_cgroup_hierarchy=0"
-  when: ansible_facts['distribution_major_version'] == '31' and
-        kernel_cmd.stdout.find('systemd.unified_cgroup_hierarchy') == -1 or
-        kernel_cmd.stdout.find('systemd.unified_cgroup_hierarchy=1') != -1
+- name: Update Grub config
+  command: 'grub2-mkconfig -o {{ docker_host_grub_config_path }}'
+  when: result.changed
   become: true
