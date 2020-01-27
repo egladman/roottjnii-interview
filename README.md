@@ -45,13 +45,20 @@ cd roottjnii-interview
 ansible-playbook --ask-become-pass --connection=local --inventory 127.0.0.1, site.yml
 ```
 
+**NOTE:** Depending on how your user is configured you might need to run `ansible-playbook` as followed:
+```
+sudo ansible-playbook --connection=local --inventory 127.0.0.1, site.yml
+```
+
+
 ### Remotely
 
 **NOTE:** You must update `hosts` with valid servers before proceeding
-
+```
 git clone git@github.com:egladman/roottjnii-interview.git
 cd roottjnii-interview
 ansible-playbook --ask-become-pass --inventory development site.yml
+```
 
 ### Validation
 
