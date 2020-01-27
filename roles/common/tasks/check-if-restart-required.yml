@@ -7,12 +7,15 @@
   ignore_errors: True
   become: true
 
-- shell: ( /bin/sleep 60; shutdown -r now "Ansible updates triggered" ) &
-  async: 30
-  poll: 0
-  ignore_errors: true
-  notify:
-    - waiting for server to come back after reboot
-  when: reboot_required.rc != 0
-  become: true
+- name: Reboot the remote machine if updates occured
+  reboot:
+  when:
+    - reboot_required.rc != 0
+    - ansible_connection != "local"
+
+- name: Reboot the local machine in 60s if updates occured
+  shell: /bin/sleep 60; shutdown -r now "Ansible updates triggered"
+  when:
+    - reboot_required.rc != 0
+    - ansible_connection == "local"
 
